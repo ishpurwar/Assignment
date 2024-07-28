@@ -1,7 +1,7 @@
 // app/page.tsx
 "use client";
 import { useEffect, useState } from "react";
-import { useRecoilState,useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import axios from "axios";
 import {
   preferenceState,
@@ -15,7 +15,20 @@ import { DoughnutChart } from "@/components/DoughnutChart";
 import Sidebar from "@/components/Sidebar";
 import { PieChart } from "@/components/PieChart";
 
-const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+const monthNames = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
 const Home = () => {
   const filters = useRecoilValue(filtersState);
   const [selectedChart, setSelectedChart] = useRecoilState(selectedChartsState);
@@ -66,40 +79,74 @@ const Home = () => {
       <Sidebar />
       <div className="dashboard">
         <div className="flex flex-row justify-between items-center max-md:flex-col max-md:gap-6">
-        <h1 className="text-5xl text-violet-600/50 font-semibold">Dashboard</h1>
-        <div>
-          <label htmlFor="chart-select" className="text-gray-800/60">Select Chart Type: </label>
-          <select
-            id="chart-select"
-            onChange={(e) => setSelectedChart(e.target.value)}
-            value={selectedChart}
-            className="border border-gray-300 rounded-md p-2 placeholder:text-gray-800/60"
-          >
-            <option value="line">Line Chart</option>
-            <option value="bar">Bar Chart</option>
-            <option value="table">Data Table</option>
-            <option value="doughnut">Doughnut Chart</option>
-            <option value="pie">Pie Chart</option>
-            <option value="all">All</option>
-          </select>
+          <h1 className="text-5xl text-violet-600/50 font-semibold">
+            Dashboard
+          </h1>
+          <div>
+            <label htmlFor="chart-select" className="text-gray-800/60">
+              Select Chart Type:{" "}
+            </label>
+            <select
+              id="chart-select"
+              onChange={(e) => setSelectedChart(e.target.value)}
+              value={selectedChart}
+              className="border border-gray-300 rounded-md p-2 placeholder:text-gray-800/60"
+            >
+              <option value="line">Line Chart</option>
+              <option value="bar">Bar Chart</option>
+              <option value="table">Data Table</option>
+              <option value="doughnut">Doughnut Chart</option>
+              <option value="pie">Pie Chart</option>
+              <option value="all">All</option>
+            </select>
+          </div>
         </div>
-        </div>
-        <p className="text-gray-800/60 max-md:text-center max-md:mt-4">Filters: {monthNames[filters.start]} - {monthNames[filters.end]}</p>
+        <p className="text-gray-800/60 max-md:text-center max-md:mt-4">
+          Filters: {monthNames[filters.start]} - {monthNames[filters.end]}
+        </p>
         <div className="widget">
-          {selectedChart === "line" && lineData && <LineChart data={lineData} />}
+          {selectedChart === "line" && lineData && (
+            <LineChart data={lineData} />
+          )}
           {selectedChart === "bar" && barData && <BarChart data={barData} />}
-          {selectedChart === "table" && tableData && <DataTable data={tableData} />}
-          {selectedChart === 'doughnut' && <DoughnutChart data={lineData} />}
-          {selectedChart === 'pie' && <PieChart data={barData} />}
+          {selectedChart === "table" && tableData && (
+            <DataTable data={tableData} />
+          )}
+          {selectedChart === "doughnut" && lineData && (
+            <DoughnutChart data={lineData} />
+          )}
+          {selectedChart === "pie" && barData && <PieChart data={barData} />}
           {selectedChart === "all" && (
             <div className="flex flex-col justify-center items-center mt-6 gap-10">
               <div className="flex md:flex-row flex-col gap-16 ">
-              {lineData &&<div className="w-1/2 max-md:w-full"> <DoughnutChart data={lineData} /></div>}
-              {barData &&<div className="w-1/2 max-md:w-full"> <PieChart data={barData} /></div>}
+                {lineData && (
+                  <div className="w-1/2 max-md:w-full">
+                    {" "}
+                    <DoughnutChart data={lineData} />
+                  </div>
+                )}
+                {barData && (
+                  <div className="w-1/2 max-md:w-full">
+                    {" "}
+                    <PieChart data={barData} />
+                  </div>
+                )}
               </div>
-              {lineData && <div className="w-3/4"><LineChart data={lineData} /></div>}
-              {barData &&  <div className="w-3/4"><BarChart data={barData} /></div>}
-              {tableData &&  <div className="w-3/4 justify-center flex "><DataTable data={tableData} /></div>}
+              {lineData && (
+                <div className="w-3/4">
+                  <LineChart data={lineData} />
+                </div>
+              )}
+              {barData && (
+                <div className="w-3/4">
+                  <BarChart data={barData} />
+                </div>
+              )}
+              {tableData && (
+                <div className="w-3/4 justify-center flex ">
+                  <DataTable data={tableData} />
+                </div>
+              )}
             </div>
           )}
         </div>
